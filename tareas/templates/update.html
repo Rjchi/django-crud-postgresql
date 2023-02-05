@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block index %}
+
+<form action="{% url 'update' tarea.id %}" method="POST" class="card card-body bg-primary">
+
+    {% csrf_token %}
+
+    <label for="titulo">Titulo: </label>
+    <input type="text" name="titulo" placeholder="Ingrese el titulo" value="{{ tarea.titulo }}"
+        class="form-control mb-2">
+    <label for="descripcion">Descripcion: </label>
+    <textarea name="descripcion" cols="40" rows="3" placeholder="Ingrese la descripción"
+        class="form-control mb-2">{{ tarea.descripcion }}</textarea>
+    <button class="btn btn-danger">
+        Actualizar
+    </button>
+
+</form>
+
+{% endblock %}

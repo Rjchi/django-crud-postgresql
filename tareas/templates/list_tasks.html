@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+
+{% block index %}
+
+<form action="{% url 'create' %}" method="POST" class="card card-body bg-primary">
+
+    {% csrf_token %}
+
+    <label for="titulo">Titulo: </label>
+    <!-- La propiedad name es para que nosotros desde el backend
+         podamos administrar lo que digite el usuario -->
+
+    <input type="text" name="titulo" placeholder="Ingrese el titulo" class="form-control mb-2">
+    <label for="descripcion">Descripcion: </label>
+    <textarea name="descripcion" cols="40" rows="3" placeholder="Ingrese la descripción" class="form-control mb-2"></textarea>
+    <button class="btn btn-danger">
+        Guardar
+    </button>
+
+</form>
+    {% for tarea in tareas %}
+        <div class="card card-body bg-dark mt-3 d-flex flex-row justify-content-between">
+            <div>
+                <p>
+                    <b>ID:</b> {{tarea.id}}
+                </p>
+                <p>
+                    <b>Titulo:</b> {{tarea.titulo}}
+                </p>
+                <p>
+                    <b>Descripcion:</b> {{tarea.descripcion}}
+                </p>
+            </div>
+            <!-- Pasamos la ruta y le agregamos el id -->
+            <form action="{% url 'delete' tarea.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger btn-sm m-1">Borrar</button>
+            </form>
+            <form action="{% url 'edit' tarea.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger btn-sm m-1">Editar</button>
+            </form>
+        </div>
+    
+    <!-- Esto es en caso de que no hayan valoren que listar, en la base de datos -->
+    {% empty %}
+        <h1 class="display-4 text-center">No hay tareas en la base de datos</h1>
+    {% endfor %}
+
+{% endblock %}
